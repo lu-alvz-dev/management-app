@@ -43,13 +43,14 @@ This project demonstrates foundational React skills including component design, 
 npm install
 npm install @dnd-kit/core @dnd-kit/sortable nanoid
 npm run dev
+```
 
 ---
 
-### 🤝 Feedback
+## 🤝 Contributions & Feedback
 
-I’m open to feedback from the community!  
-If you have ideas for improvements, bug fixes, or new features, please open an issue.  
+I’m open to feedback and contributions from the community!  
+If you have ideas for improvements, bug fixes, or new features, please open an issue or submit a pull request.  
 Let’s make this project better together. 🚀
 
 ---
