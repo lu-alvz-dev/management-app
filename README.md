@@ -46,7 +46,7 @@ npm run dev
 
 ---
 
-## 🤝 Feedback
+### 🤝 Feedback
 
 I’m open to feedback from the community!  
 If you have ideas for improvements, bug fixes, or new features, please open an issue.  
