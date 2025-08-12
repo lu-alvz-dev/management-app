@@ -49,8 +49,8 @@ npm run dev
 
 ## 🤝 Contributions & Feedback
 
-I’m open to feedback and contributions from the community!  
-If you have ideas for improvements, bug fixes, or new features, please open an issue or submit a pull request.  
+I’m open to feedback from the community!  
+If you have ideas for improvements, bug fixes, or new features, please open an issue.  
 Let’s make this project better together. 🚀
 
 ---
