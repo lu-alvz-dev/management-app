@@ -1,6 +1,6 @@
-import Column from "./components/Column";
+import Column from "./components/Column/Column";
 import { tasks } from "./data";
-import "./App.css";
+import "./App.module.css";
 
 export default function App() {
   return (
