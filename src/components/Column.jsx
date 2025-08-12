@@ -1,13 +1,14 @@
 import TaskCard from "./TaskCard";
 
-export default function Column({ title, tasks, children }) {
+export default function Column({ title, tasks }) {
   return (
     <div>
       <h2>{title}</h2>
-      {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
-      ))}
-      {children}
+      {tasks.length === 0 ? (
+        <p>No tasks</p>
+      ) : (
+        tasks.map((task) => <TaskCard key={task.id} task={task} />)
+      )}
     </div>
   );
 }
