@@ -1,11 +1,17 @@
-#root {
-  max-width: 1280px;
+.app {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/*Styling for board*/
 .board {
   display: flex;
   gap: 1rem;
+  justify-content: space-between;
+  /* Responsive for smart phones*/
+  flex: wrap;
 }
