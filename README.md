@@ -1,12 +1,45 @@
-# React + Vite
+# Mini Project Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React task management app built with Vite featuring multiple columns (To Do, In Progress, Done) to organize tasks efficiently.  
+This project demonstrates foundational React skills including component design, state management, and clean UI development. Drag-and-drop functionality using @dnd-kit is planned to deepen interactivity and user experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚧 Project Status
 
-## Expanding the ESLint configuration
+⚠️ Work in progress — basic layout and task creation implemented. Currently building core functionality to showcase React best practices.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✨ Features
+
+- Multi-column task board with categorized tasks  
+- Add, view, and organize tasks per column  
+- Clean, responsive UI with intuitive design  
+- Planned: Drag-and-drop support to rearrange and move tasks dynamically
+
+---
+
+## 🛠️ Tech Stack & Tools
+
+- React (component-based UI development)  
+- Vite (fast frontend build tool)  
+- @dnd-kit (upcoming drag-and-drop integration)  
+- nanoid (unique ID generation)  
+- Git & GitHub (version control and collaboration)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or newer recommended) — [Download Node.js](https://nodejs.org/)  
+- npm (included with Node.js)
+
+### Installation & Running Locally
+
+```bash
+npm install
+npm install @dnd-kit/core @dnd-kit/sortable nanoid
+npm run dev
