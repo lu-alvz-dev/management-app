@@ -1,4 +1,5 @@
 import TaskCard from "../TaskCard/TaskCard";
+import "./Column.module.css";
 
 export default function Column({ title, tasks }) {
   return (

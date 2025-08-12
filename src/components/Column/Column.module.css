@@ -1,0 +1,19 @@
+.column {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 250px;
+}
+
+.title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.taskCard {
+  background: #f0f0f0;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+}
