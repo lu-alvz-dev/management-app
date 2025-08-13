@@ -1,5 +1,6 @@
 import { useState } from "react";
 import nanoid from "nanoid";
+import styles from "./AddTask.module.css";
 export default function AddTask({ onAdd }) {
   const [title, setTitle] = useState("");
 
@@ -11,7 +12,7 @@ export default function AddTask({ onAdd }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={styles.addTask}>
       <input
         type="text"
         placeholder="New Task..."
