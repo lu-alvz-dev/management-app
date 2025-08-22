@@ -6,111 +6,142 @@ import styles from "./App.module.css";
 
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { SortableTask } from "./components/TaskCard/SortableTask";
 
 export default function App() {
   const [tasks, setTasks] = useState(initialTasks);
 
-  // Add task to a column
   const addTask = (column, task) => {
     setTasks((prev) => ({ ...prev, [column]: [...prev[column], task] }));
   };
 
-  // Handle drag end for moving tasks between columns
+  // Helpers to find where the dragged task came from / goes to
+  const COLUMN_IDS = ["todo", "inprogress", "done"];
+
+  const findColumnByTaskId = (id) => {
+    for (const col of COLUMN_IDS) {
+      if (tasks[col].some((t) => t.id === id)) return col;
+    }
+    return null;
+  };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
-    if (!over || active.id === over.id) return;
+    if (!over) return;
 
-    let sourceColumn = "";
-    let targetColumn = "";
-    let draggedTask;
+    const activeId = active.id;
+    const overId = over.id;
 
-    // Find source column and task
-    for (let col in tasks) {
-      const found = tasks[col].find((t) => t.id === active.id);
-      if (found) {
-        sourceColumn = col;
-        draggedTask = found;
-        break;
-      }
-    }
+    const sourceColumn = findColumnByTaskId(activeId);
+    if (!sourceColumn) return;
 
-    // Find target column
-    for (let col in tasks) {
-      const found = tasks[col].find((t) => t.id === over.id);
-      if (found) {
-        targetColumn = col;
-        break;
-      }
-    }
+    // Determine target column:
+    // If overId is a column id, we're dropping into an empty area of that column.
+    // Otherwise, find the column that contains the "over" task.
+    const targetColumn = COLUMN_IDS.includes(overId)
+      ? overId
+      : findColumnByTaskId(overId) || sourceColumn;
 
-    // If dropped in empty column, use active.id column
-    if (!targetColumn) {
-      targetColumn = sourceColumn;
-    }
+    const sourceList = tasks[sourceColumn];
+    const targetList = tasks[targetColumn];
 
+    const sourceIndex = sourceList.findIndex((t) => t.id === activeId);
+
+    // Determine target index:
+    // If we're over a task, drop before that task; if over a column, drop at end.
+    const targetIndex = COLUMN_IDS.includes(overId)
+      ? targetList.length
+      : targetList.findIndex((t) => t.id === overId);
+
+    const draggedTask = sourceList[sourceIndex];
     if (!draggedTask) return;
 
-    // Remove task from source column
-    const newSourceTasks = tasks[sourceColumn].filter(
-      (t) => t.id !== draggedTask.id
-    );
+    // If same column, just reorder
+    if (sourceColumn === targetColumn) {
+      // If dropped onto itself, nothing to do
+      if (sourceIndex === targetIndex || targetIndex === -1) return;
 
-    // Insert task into target column
-    const newTargetTasks =
-      sourceColumn === targetColumn
-        ? arrayMove(
-            newSourceTasks,
-            tasks[sourceColumn].indexOf(draggedTask),
-            tasks[targetColumn].indexOf(
-              tasks[targetColumn].find((t) => t.id === over.id)
-            )
-          )
-        : [...tasks[targetColumn], draggedTask];
+      const newList = [...sourceList];
+      // remove dragged
+      newList.splice(sourceIndex, 1);
+      // insert at new index (account for removal shift)
+      const insertAt =
+        sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
+      newList.splice(insertAt, 0, draggedTask);
 
-    setTasks({
-      ...tasks,
-      [sourceColumn]: newSourceTasks,
-      [targetColumn]: newTargetTasks,
-    });
+      setTasks((prev) => ({ ...prev, [sourceColumn]: newList }));
+      return;
+    }
+
+    // Moving across columns
+    const newSource = [...sourceList];
+    newSource.splice(sourceIndex, 1);
+
+    const newTarget = [...targetList];
+    const insertAt = targetIndex === -1 ? newTarget.length : targetIndex;
+    newTarget.splice(insertAt, 0, draggedTask);
+
+    setTasks((prev) => ({
+      ...prev,
+      [sourceColumn]: newSource,
+      [targetColumn]: newTarget,
+    }));
   };
 
   return (
     <div className={styles.app}>
       <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        {/* To Do Column */}
-        <SortableContext
-          items={tasks.todo.map((t) => t.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          <Column title="To Do" tasks={tasks.todo} sortable={true}>
+        <div className={styles.board}>
+          {/* To Do */}
+          <div>
             <AddTask onAdd={(task) => addTask("todo", task)} />
-          </Column>
-        </SortableContext>
+            <SortableContext
+              items={tasks.todo.map((t) => t.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <Column
+                columnId="todo"
+                title="To Do"
+                tasks={tasks.todo}
+                sortable
+              />
+            </SortableContext>
+          </div>
 
-        {/* In Progress Column */}
-        <SortableContext
-          items={tasks.inprogress.map((t) => t.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          <Column title="In Progress" tasks={tasks.inprogress} sortable={true}>
+          {/* In Progress */}
+          <div>
             <AddTask onAdd={(task) => addTask("inprogress", task)} />
-          </Column>
-        </SortableContext>
+            <SortableContext
+              items={tasks.inprogress.map((t) => t.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <Column
+                columnId="inprogress"
+                title="In Progress"
+                tasks={tasks.inprogress}
+                sortable
+              />
+            </SortableContext>
+          </div>
 
-        {/* Done Column */}
-        <SortableContext
-          items={tasks.done.map((t) => t.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          <Column title="Done" tasks={tasks.done} sortable={true}>
+          {/* Done */}
+          <div>
             <AddTask onAdd={(task) => addTask("done", task)} />
-          </Column>
-        </SortableContext>
+            <SortableContext
+              items={tasks.done.map((t) => t.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <Column
+                columnId="done"
+                title="Done"
+                tasks={tasks.done}
+                sortable
+              />
+            </SortableContext>
+          </div>
+        </div>
       </DndContext>
     </div>
   );
