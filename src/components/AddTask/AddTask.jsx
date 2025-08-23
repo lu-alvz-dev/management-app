@@ -18,7 +18,7 @@ export default function AddTask({ onAdd }) {
         type="text"
         placeholder="New Task..."
         value={title}
-        onchange={(e) => setTitle(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
       />
       <button type="submit">+</button>
     </form>

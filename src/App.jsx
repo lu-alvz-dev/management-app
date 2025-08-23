@@ -17,6 +17,13 @@ export default function App() {
     setTasks((prev) => ({ ...prev, [column]: [...prev[column], task] }));
   };
 
+  const deleteTask = (column, id) => {
+    setTasks((prev) => ({
+      ...prev,
+      [column]: prev[column].filter((t) => t.id !== id),
+    }));
+  };
+
   // Helpers to find where the dragged task came from / goes to
   const COLUMN_IDS = ["todo", "inprogress", "done"];
 
@@ -106,6 +113,7 @@ export default function App() {
                 title="To Do"
                 tasks={tasks.todo}
                 sortable
+                onDelete={(id) => deleteTask("todo", id)}
               />
             </SortableContext>
           </div>
@@ -122,6 +130,7 @@ export default function App() {
                 title="In Progress"
                 tasks={tasks.inprogress}
                 sortable
+                onDelete={(id) => deleteTask("inprogress", id)}
               />
             </SortableContext>
           </div>
@@ -138,6 +147,7 @@ export default function App() {
                 title="Done"
                 tasks={tasks.done}
                 sortable
+                onDelete={(id) => deleteTask("done", id)}
               />
             </SortableContext>
           </div>
