@@ -1,19 +1,30 @@
 import styles from "./TaskCard.module.css";
-import { usesortable } from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-export default function TaskCard({ task, sortable = false }) {
-  if (!sortable) {
-    return <div className={styles.taskCard}>{task.title}</div>;
-  }
-
+export default function TaskCard({ task, sortable = false, onDelete }) {
   // Making the card draggable and sortable
-
   const { attributes, listeners, setNodeRef, transform, transition } =
-    usesortable({ id: task.id });
+    useSortable({ id: task.id });
 
   //adding dragging animation
   const style = { transform: CSS.Transform.toString(transform), transition };
+  if (!sortable) {
+    return (
+      <div className={styles.taskCard}>
+        {task.title}{" "}
+        {onDelete && (
+          <button
+            aria-label="Delet task"
+            onClick={onDelete}
+            style={{ marginLeft: 8 }}
+          >
+            X
+          </button>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div
@@ -23,7 +34,19 @@ export default function TaskCard({ task, sortable = false }) {
       {...attributes}
       {...listeners}
     >
-      {task.title}
+      {task.title}{" "}
+      {onDelete && (
+        <button
+          aria-label="Delete task"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          style={{ marginLeft: 8 }}
+        >
+          X
+        </button>
+      )}
     </div>
   );
 }
