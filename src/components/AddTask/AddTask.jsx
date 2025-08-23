@@ -1,13 +1,14 @@
 import { useState } from "react";
 import nanoid from "nanoid";
 import styles from "./AddTask.module.css";
+
 export default function AddTask({ onAdd }) {
   const [title, setTitle] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim()) return;
-    onAdd({ id: nanoid(), title });
+    onAdd({ id: nanoid(), title: title.trim() });
     setTitle("");
   };
 
